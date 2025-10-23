@@ -1,17 +1,22 @@
+cat > environment.yml << 'YAML'
 name: rnaseq
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
   - defaults
 dependencies:
   - python=3.10
-  - snakemake
+  - snakemake=7.32.4
   - fastp
   - star
   - samtools
   - subread
-  - r-base
-  - r-deseq2
+  - r-base=4.3
   - r-ggplot2
-  - pandas
-  - matplotlib
+  - bioconductor-deseq2
+  - pip
+  - pip:
+      - pandas
+      - matplotlib
+YAML
+
