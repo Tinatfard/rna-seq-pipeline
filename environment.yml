@@ -1,4 +1,3 @@
-cat > environment.yml << 'YAML'
 name: rnaseq
 channels:
   - conda-forge
@@ -18,5 +17,4 @@ dependencies:
   - pip:
       - pandas
       - matplotlib
-YAML
 
