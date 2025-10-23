@@ -1,0 +1,16 @@
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - snakemake
+  - fastp
+  - star
+  - samtools
+  - subread
+  - r-base
+  - r-deseq2
+  - r-ggplot2
+  - pandas
+  - matplotlib
