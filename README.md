@@ -98,7 +98,7 @@ License
 This repository is released under the MIT License. See LICENSE file for details.
 
 Contact / Maintainer
-Tina Tofighi Fard — https://github.com/Tinatfard
+Tina Tofighi Fard — tinatfard99@gmail.com
 
 Changelog
 - v1.0 (2025): initial release
