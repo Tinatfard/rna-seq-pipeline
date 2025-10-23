@@ -1,0 +1,5 @@
+sample_id,condition,fastq_1,fastq_2
+S1,treated,data/fastq/S1_R1.fastq.gz,data/fastq/S1_R2.fastq.gz
+S2,treated,data/fastq/S2_R1.fastq.gz,data/fastq/S2_R2.fastq.gz
+C1,control,data/fastq/C1_R1.fastq.gz,data/fastq/C1_R2.fastq.gz
+C2,control,data/fastq/C2_R1.fastq.gz,data/fastq/C2_R2.fastq.gz
