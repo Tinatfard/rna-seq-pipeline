@@ -1,6 +1,6 @@
 # RNA-Seq Pipeline
 
-This workflow was developed as part of the NGnovis project — an initiative to build reproducible, automated bioinformatics pipelines for transcriptomic analysis.
+A reproducible workflow for RNA-Seq analysis, from raw FASTQ reads to differential gene expression and pathway interpretation.
 
 ### Workflow
 FASTQ → QC → Alignment → Count Matrix → DEGs → Pathway Analysis
