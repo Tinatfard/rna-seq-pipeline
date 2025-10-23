@@ -1,0 +1,4 @@
+threads: 8
+aligner: STAR
+genomeDir: "/data/genomes/hg38_star_index"
+annotation_gtf: "/data/genomes/gencode.v46.annotation.gtf"
