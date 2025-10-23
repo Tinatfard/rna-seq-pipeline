@@ -1,68 +1,105 @@
+```markdown
 # RNA-Seq Pipeline
 
-A reproducible workflow for RNA-Seq analysis, from raw FASTQ reads to differential gene expression and pathway interpretation.
-This pipeline was developed as part of my ongoing work in transcriptomic data analysis.  
-It integrates commonly used bioinformatics tools into a clean and modular structure, making the analysis steps transparent and easy to reproduce.
+A reproducible Snakemake workflow for RNA-Seq analysis, from raw FASTQ reads to differential gene expression and pathway interpretation.
 
+This pipeline integrates fastp, STAR, featureCounts and DESeq2 in a modular, configurable workflow so analyses are transparent and reproducible.
 
-### Workflow Overview
-**FASTQ → QC → Alignment → Count Matrix → DEGs → Pathway Analysis**
-- **QC:** fastp for adapter trimming and quality filtering  
-- **Alignment:** STAR for genome mapping  
-- **Quantification:** featureCounts for gene level counting  
-- **Differential Expression:** DESeq2 for identifying DE genes  
+Badges
+- (add CI / license / DOI / conda badges here)
 
-### Requirements
-> 🖥️ This workflow was tested and optimized on a Linux environment (Ubuntu 22.04 LTS) with Conda for dependency management.
-The environment can be created with:
-```bash
-conda env create -f environment.yml
-conda activate rnaseq
+Workflow overview
+FASTQ → QC → Alignment → Count matrix → Differential expression → Pathway analysis
 
-## Main dependencies include:
-Python 3.10
-Snakemake
-fastp
-STAR
-featureCounts (Subread)
-R + DESeq2
+- QC: fastp for adapter trimming and quality filtering  
+- Alignment: STAR for genome mapping  
+- Quantification: featureCounts (Subread) for gene-level counting  
+- Differential expression: DESeq2 (R/Bioconductor)
 
-## Run the Workflow, Once the configuration files are set:
-snakemake -j 8 --use-conda
+Requirements
+This workflow was tested on Ubuntu 22.04 LTS. We recommend using Conda or a container for reproducibility.
 
-## Results will be generated under:
+Minimum software (examples managed via environment.yml):
+- Python 3.10
+- Snakemake (pinned in environment.yml)
+- fastp
+- STAR
+- Subread (featureCounts)
+- R (>=4.0) with DESeq2
+
+Quick start (recommended)
+1. Clone repo
+   git clone https://github.com/Tinatfard/rna-seq-pipeline.git
+   cd rna-seq-pipeline
+
+2. Create environment
+   conda env create -f environment.yml
+   conda activate rnaseq
+
+3. Configure inputs
+   - Edit config/samples.csv (see example below)
+   - Edit config/params.yaml for threads, aligner, genomeDir, annotation_gtf, etc.
+   - Ensure genome FASTA/GTF and STAR index are available. If you need to build a STAR index, see "Building indexes" below.
+
+4. Dry-run to see planned jobs
+   snakemake -n --use-conda
+
+5. Run the workflow
+   snakemake -j 8 --use-conda
+
+Input structure / config
+- config/samples.csv (required)
+  sample_id,condition,fastq_1,fastq_2
+  S1,treated,data/fastq/S1_R1.fastq.gz,data/fastq/S1_R2.fastq.gz
+  S2,treated,data/fastq/S2_R1.fastq.gz,data/fastq/S2_R2.fastq.gz
+  C1,control,data/fastq/C1_R1.fastq.gz,data/fastq/C1_R2.fastq.gz
+
+- config/params.yaml (example)
+  threads: 8
+  aligner: STAR
+  genomeDir: "/data/genomes/hg38_star_index"
+  annotation_gtf: "/data/genomes/gencode.v46.annotation.gtf"
+
+Recommended reference files
+- Genome FASTA (e.g., GRCh38 primary assembly)
+- GTF annotation (e.g., GENCODE v46)
+- STAR genome index (provide path in params.yaml or build using STAR --runMode genomeGenerate)
+
+Outputs
+Results are placed under results/ by default:
 results/
-├── qc/
-├── align/
-├── counts/
-└── deg/
+├── qc/                 (fastp reports and trimmed fastq)
+├── align/              (*.bam, mapping logs)
+├── counts/             (gene_counts.tsv)
+└── deg/                (DESeq2 results and plots)
 
-## Example Configuration
-config/samples.csv
-sample_id,condition,fastq_1,fastq_2
-S1,treated,data/fastq/S1_R1.fastq.gz,data/fastq/S1_R2.fastq.gz
-S2,treated,data/fastq/S2_R1.fastq.gz,data/fastq/S2_R2.fastq.gz
-C1,control,data/fastq/C1_R1.fastq.gz,data/fastq/C1_R2.fastq.gz
-C2,control,data/fastq/C2_R1.fastq.gz,data/fastq/C2_R2.fastq.gz
+Examples of outputs:
+- QC reports: results/qc/*.html
+- Aligned BAM files: results/align/*.bam
+- Count table: results/counts/gene_counts.tsv
+- DEG results: results/deg/deseq2_results.csv
 
-config/params.yaml
-threads: 8
-aligner: STAR
-genomeDir: "/data/genomes/hg38_star_index"
-annotation_gtf: "/data/genomes/gencode.v46.annotation.gtf"
+Reproducibility / containers
+- environment.yml included for Conda-based reproducibility.
+- Optional: provide Dockerfile or Singularity recipe for containerized runs.
 
-## Output
-QC reports: results/qc/*.html
-Aligned BAM files: results/align/*.bam
-Count table: results/counts/gene_counts.tsv
-DEG results: results/deg/deseq2_results.csv
+Testing
+A minimal test is provided under tests/. To run the test (no heavy tools required):
+snakemake -s tests/Snakefile --cores 1 test
 
-## Citation
-If this workflow was useful in your research, please cite it as:
+This runs a tiny smoke test that verifies the repository structure and config parsing.
+
+Citation
+If this workflow was useful, please cite:
 RNA-Seq Pipeline, version 1.0 (2025)
 Developed by Tina Tofighi Fard
 
-## License
-Free to use, modify, and share for research purposes.
+License
+This repository is released under the MIT License. See LICENSE file for details.
 
-#RNASeq #Bioinformatics #Genomics #Transcriptomics
+Contact / Maintainer
+Tina Tofighi Fard — https://github.com/Tinatfard
+
+Changelog
+- v1.0 (2025): initial release
+```
