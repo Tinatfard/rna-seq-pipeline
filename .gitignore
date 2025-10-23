@@ -1,0 +1,6 @@
+__pycache__/
+.snakemake/
+results/
+.DS_Store
+.vscode/
+.idea/
